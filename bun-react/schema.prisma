@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:postgres@localhost:5432/ecm"
+}
+
+model Menu {
+  id     String  @id @default(cuid())
+  name   String
+  orders Order[]
+}
+
+model Order {
+  id    String  @id @default(cuid())
+  name  String
+  menus Menu[]
+  done  Boolean @default(false)
+}
