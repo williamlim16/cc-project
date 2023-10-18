@@ -9,16 +9,16 @@ import (
 )
 
 const (
-	host     = "localhost"
+	host     = "database-ecm.c4lovv8lv5kg.ap-southeast-1.rds.amazonaws.com"
 	port     = 5432
 	user     = "postgres"
 	password = "postgres"
-	dbname   = "ecm"
+	dbname   = "postgres"
 )
 
 func (s *Server) InitDB() {
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
+		"password=%s dbname=%s sslmode=require",
 		host, port, user, password, dbname)
 	var err error
 	s.DB, err = sql.Open("postgres", psqlInfo)

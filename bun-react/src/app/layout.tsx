@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Link from 'next/link'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,6 +20,9 @@ export default function RootLayout({
       <body>
         <div className="flex min-h-screen justify-center bg-white">
           <div className="w-full max-w-md bg-black">
+            <div className="flex items-center justify-center pt-11">
+              <Link className="text-6xl" href="/">ECM Café</Link>
+            </div>
             {children}
           </div>
         </div>

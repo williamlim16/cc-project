@@ -15,7 +15,7 @@ export async function addMenu(menu: FormMenu) {
 }
 
 export async function getMenus() {
-  await sleep(1000)
+  // await sleep(1000)
   return await prisma.menu.findMany({})
 }
 

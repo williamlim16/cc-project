@@ -33,8 +33,13 @@ func (s *Server) Connect(w http.ResponseWriter, r *http.Request) {
 	s.mu.Lock()
 	s.conns[c] = true
 	s.mu.Unlock()
-	log.Println("connection has been maintained")
+	log.Println("connection is being maintained")
 	for {
+		_, _, err := c.ReadMessage()
+		if err != nil {
+			log.Println("read:", err)
+			break
+		}
 		continue
 	}
 }

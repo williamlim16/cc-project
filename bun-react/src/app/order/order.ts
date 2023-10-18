@@ -7,7 +7,7 @@ import { sleep } from "@/lib/util"
 export type FormOrder = Omit<Order, "id" | "done">
 
 export async function addOrder ({name}: FormOrder, menuId: string) {
-  await sleep(1000)
+  // await sleep(1000)
   await prisma.order.create({
     data: {
       name,
@@ -21,7 +21,7 @@ export async function addOrder ({name}: FormOrder, menuId: string) {
 }
 
 export async function getOrders ({page = 0}: {page: number }) {
-  await sleep(1000)
+  // await sleep(1000)
   const orders =  await prisma.order.findMany({
     include: {
       menus: true
@@ -44,7 +44,7 @@ export async function getOrders ({page = 0}: {page: number }) {
 }
 
 export async function getAllOrders ({type}: {type: string | undefined}) {
-  await sleep(1000)
+  // await sleep(1000)
   let orders 
   if ( type && type === "completed"){
   orders =  await prisma.order.findMany({
@@ -69,7 +69,7 @@ export async function getAllOrders ({type}: {type: string | undefined}) {
 }
 
 export async function completeOrder ({id}: {id: string}) {
-  await sleep(1000)
+  // await sleep(1000)
   await prisma.order.update({
   where: {
     id
@@ -82,7 +82,7 @@ export async function completeOrder ({id}: {id: string}) {
 
 
 export async function deleteOrder ({id}: {id: string}) {
-  await sleep(1000)
+  // await sleep(1000)
   await prisma.order.delete({
   where: {
     id
