@@ -1,9 +1,8 @@
-FROM oven/bun:1.0
+FROM node:lts
 
 COPY . .
-ENV CI=false
-ENV NODE_ENV="production"
-RUN bun install && \ 
-    bun build-next
+ENV NODE_OPTIONS=--max_old_space_size=16000
+RUN npm install && \ 
+    npm run build-next
 
-CMD [ "bun", "start" ]
+ENTRYPOINT ["npm","run", "start"]
