@@ -1,6 +1,7 @@
 import { useQuery } from "react-query"
 import { getOrders } from "../repositories/order"
 import { Link } from "react-router-dom"
+import RecentOrder from "../components/RecentOrder"
 
 export default function Order() {
   const { data } = useQuery('orders', getOrders)
@@ -9,11 +10,7 @@ export default function Order() {
     <div className="flex w-full flex-col items-center gap-5">
 
       <h1 className="text-xl">Recently completed order</h1>
-      <div className="rounded-md p-3 outline-dashed">
-        {/* <Suspense fallback={Spinner()}>
-          <RecentOrder />
-        </Suspense> */}
-      </div>
+      <RecentOrder />
 
       <div className="mt-10 flex flex-col items-center gap-3">
         <h1 className="text-3xl">Ongoin Orders 🍔</h1>

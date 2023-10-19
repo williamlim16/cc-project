@@ -10,6 +10,7 @@ import OrderAdd from './pages/OrderAdd'
 import { Toaster } from 'react-hot-toast'
 import Menu from './pages/Menu'
 import MenuAdd from './pages/MenuAdd'
+import { AiFillHome } from "react-icons/ai"
 
 export const queryClient = new QueryClient()
 export const router = createBrowserRouter([
@@ -48,6 +49,11 @@ export const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
+      <div className='flex justify-center items-center text-4xl pt-10'>
+        <a href="/">
+          <AiFillHome />
+        </a>
+      </div>
       <RouterProvider router={router} />
       <Toaster />
     </QueryClientProvider>

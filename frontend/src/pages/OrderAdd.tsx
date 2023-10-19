@@ -24,7 +24,7 @@ export default function OrderAdd() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['orders'] })
       navigate("/order")
-      toast.success("Successfuly added order!")
+      toast.success("Successfuly added order!", { position: "bottom-center" })
     },
   })
 

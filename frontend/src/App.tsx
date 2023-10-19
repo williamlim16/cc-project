@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import RecentOrder from "./components/RecentOrder"
 
 function App() {
 
@@ -8,6 +9,7 @@ function App() {
         <div className='flex flex-col items-center justify-center gap-5'>
           <div>
             <h1 className="text-xl">Recently completed order</h1>
+            <RecentOrder />
           </div>
           <div className="w-full px-10">
             <Link to="/order" >

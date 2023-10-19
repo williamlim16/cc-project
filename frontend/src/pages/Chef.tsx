@@ -16,7 +16,7 @@ export default function Chef() {
     mutationFn: completeOrder,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['orders'] })
-      toast.success("Successfuly completed order!")
+      toast.success("Successfuly completed order!", { position: "bottom-center" })
     },
   })
 
@@ -24,7 +24,7 @@ export default function Chef() {
     mutationFn: deleteOrder,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['orders'] })
-      toast.success("Successfuly deleted order!")
+      toast.success("Successfuly deleted order!", { position: "bottom-center" })
     },
   })
 

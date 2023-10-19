@@ -12,7 +12,7 @@ export default function Menu() {
     mutationFn: deleteMenu,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['menus'] })
-      toast.success("Successfuly deleted order!")
+      toast.success("Successfuly deleted order!", { position: "bottom-center" })
     },
   })
 

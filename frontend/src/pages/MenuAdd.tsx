@@ -15,7 +15,7 @@ export default function MenuAdd() {
     mutationFn: addMenu,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['menus'] })
-      toast.success("Successfuly deleted order!")
+      toast.success("Successfuly deleted order!", { position: "bottom-center" })
       navigate("/menu")
     },
   })
