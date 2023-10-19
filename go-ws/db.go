@@ -2,29 +2,32 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
+	"os"
+	"path/filepath"
 
 	"github.com/gorilla/mux"
-)
-
-const (
-	host     = "database-ecm.c4lovv8lv5kg.ap-southeast-1.rds.amazonaws.com"
-	port     = 5432
-	user     = "postgres"
-	password = "postgres"
-	dbname   = "postgres"
+	"github.com/joho/godotenv"
 )
 
 func (s *Server) InitDB() {
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=require",
-		host, port, user, password, dbname)
 	var err error
-	s.DB, err = sql.Open("postgres", psqlInfo)
+	err = godotenv.Load(filepath.Join("./", ".env"))
 	if err != nil {
-		log.Fatal(err)
+		panic("failed to load .env")
 	}
-	s.DB.Ping()
+	s.DB, err = sql.Open("mysql", os.Getenv("DSN"))
+
+	if err != nil {
+		panic(err)
+	}
+
+	if err != nil {
+		log.Fatalf("failed to connect: %v", err)
+	}
+
+	if err := s.DB.Ping(); err != nil {
+		log.Fatalf("failed to ping: %v", err)
+	}
 	s.Router = mux.NewRouter()
 }

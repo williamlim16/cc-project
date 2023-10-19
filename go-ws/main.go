@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"sync"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
-	_ "github.com/lib/pq"
 )
 
 type Server struct {
@@ -26,6 +26,5 @@ func main() {
 	s.InitDB()
 	s.InitRouter()
 	http.ListenAndServe("0.0.0.0:8000", s.Router)
-
 	defer s.DB.Close()
 }
