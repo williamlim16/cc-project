@@ -92,7 +92,7 @@ export async function deleteOrder ({id}: {id: string}) {
 }
 
 export async function broadcast(){
-  await fetch(`http://${process.env["NEXT_PUBLIC_RECENT"]}/broadcast`, {
+  await fetch(`http://localhost:8000/broadcast`, {
     method: "POST"
   })
 }
