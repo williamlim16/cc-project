@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { Link } from "react-router-dom";
-import { getOrders } from "../repositories/order";
+import { completeOrder, deleteOrder, getOrders } from "../repositories/order";
+import { queryClient } from "../main";
+import toast from "react-hot-toast";
 
 type States = "ongoing" | "completed"
 
@@ -10,6 +12,22 @@ export default function Chef() {
   const [type, setType] = useState<States>("ongoing")
   const { data } = useQuery('orders', getOrders)
 
+  const mutationComplete = useMutation({
+    mutationFn: completeOrder,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['orders'] })
+      toast.success("Successfuly completed order!")
+    },
+  })
+
+  const mutationDelete = useMutation({
+    mutationFn: deleteOrder,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['orders'] })
+      toast.success("Successfuly deleted order!")
+    },
+  })
+
   return (
     <div className="flex w-full flex-col items-center gap-10">
       <h1 className="mt-10 text-3xl"> Ongoin Orders 👨‍🍳</h1>
@@ -17,15 +35,13 @@ export default function Chef() {
       <div className="join">
         {types.map((typePage) => {
           return (
-            <>
-              <button
-                key={`page_${typePage}`}
-                className={`btn join-item ${type === typePage ? "btn-active" : ""}`}
-                onClick={() => { setType(typePage) }}
-              >
-                {typePage}
-              </button>
-            </>
+            <button
+              key={`page_${typePage}`}
+              className={`btn join-item ${type === typePage ? "btn-active" : ""}`}
+              onClick={() => { setType(typePage) }}
+            >
+              {typePage}
+            </button>
           )
         })}
       </div>
@@ -41,7 +57,7 @@ export default function Chef() {
                       <br />
                       Ordered: {order.menu}
                     </div>
-                    <button className="btn btn-success ml-auto">Complete</button>
+                    <button className="btn btn-success ml-auto" onClick={() => { mutationComplete.mutate({ orderId: order.id }) }}>Complete</button>
                   </div>
                 </div>
               </div>
@@ -56,7 +72,7 @@ export default function Chef() {
                       <br />
                       Ordered: {order.menu}
                     </div>
-                    <button className="btn btn-success ml-auto">Complete</button>
+                    <button className="btn btn-warning ml-auto text-sm" onClick={() => { mutationDelete.mutate({ orderId: order.id }) }}>Delete</button>
                   </div>
                 </div>
               </div>

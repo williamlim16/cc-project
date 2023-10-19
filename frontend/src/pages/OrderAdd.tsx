@@ -15,17 +15,16 @@ export default function OrderAdd() {
   })
   useEffect(() => {
     if (data) {
-      setDataForm(() => ({ ...dataForm, menu: data[0].id }))
+      setDataForm((prev) => ({ ...prev, menu: data[0].id }))
     }
   }, [data, isSuccess])
 
   const mutation = useMutation({
     mutationFn: addOrder,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['order'] })
+      queryClient.invalidateQueries({ queryKey: ['orders'] })
       navigate("/order")
       toast.success("Successfuly added order!")
-      console.log("bro")
     },
   })
 

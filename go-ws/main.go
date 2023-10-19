@@ -19,10 +19,9 @@ func main() {
 	s.InitDB()
 	s.InitRouter()
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"*"},                                     // All origins
-		AllowedMethods: []string{"GET", "HEAD", "POST", "PUT", "OPTIONS"}, // Allowing only get, just an example
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{"GET", "HEAD", "POST", "PATCH", "PUT", "OPTIONS", "DELETE"},
 	})
-	// http.ListenAndServe("0.0.0.0:8000", s.Router)
 	log.Fatal(http.ListenAndServe(":8000", c.Handler(s.Router)))
 
 	defer s.DB.Close()

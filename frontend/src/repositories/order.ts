@@ -33,3 +33,23 @@ export async function addOrder({ name, menu }: { name: string; menu: string }) {
     }
   }
 }
+
+export async function completeOrder({ orderId }: { orderId: string }) {
+  try {
+    await axios.patch(`http://${server}/orders/${orderId}`);
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error(error.message);
+    }
+  }
+}
+
+export async function deleteOrder({ orderId }: { orderId: string }) {
+  try {
+    await axios.delete(`http://${server}/orders/${orderId}`);
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error(error.message);
+    }
+  }
+}

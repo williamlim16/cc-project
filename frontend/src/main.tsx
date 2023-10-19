@@ -8,6 +8,8 @@ import Order from './pages/Order'
 import Chef from './pages/Chef'
 import OrderAdd from './pages/OrderAdd'
 import { Toaster } from 'react-hot-toast'
+import Menu from './pages/Menu'
+import MenuAdd from './pages/MenuAdd'
 
 export const queryClient = new QueryClient()
 export const router = createBrowserRouter([
@@ -29,6 +31,16 @@ export const router = createBrowserRouter([
   {
     path: "/chef",
     element: <Chef />,
+  },
+
+  {
+    path: "/menu",
+    element: <Menu />,
+  },
+
+  {
+    path: "/menu/add",
+    element: <MenuAdd />,
   },
 ]);
 
