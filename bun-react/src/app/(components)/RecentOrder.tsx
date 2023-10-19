@@ -5,7 +5,7 @@ function RecentOrder() {
   const [order, setOrder] = useState<Order[]>([])
 
   useEffect(() => {
-    const ws = new WebSocket(`ws://${process.env["NEXT_PUBLIC_RECENT"]}/ws`);
+    const ws = new WebSocket(`ws://localhost:8000/ws`);
     ws.onmessage = (event) => {
       setOrder(JSON.parse(event.data))
     };

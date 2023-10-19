@@ -25,7 +25,7 @@ func main() {
 	s := Server{}
 	s.InitDB()
 	s.InitRouter()
-	http.ListenAndServe(":8000", s.Router)
+	http.ListenAndServe("0.0.0.0:8000", s.Router)
 
 	defer s.DB.Close()
 }

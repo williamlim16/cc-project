@@ -2,12 +2,17 @@ version: '3.1'
 
 services:
   order:
-      image: "queue"
-      build: ./bun-react
-      ports:
-        - 3000:3000
-      networks:
-        - mainNetwork
+    image: "order"
+    build: ./bun-react
+    depends_on:
+      - queue
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@database-ecm.c4lovv8lv5kg.ap-southeast-1.rds.amazonaws.com:5432/postgres
+      - NEXT_PUBLIC_RECENT=queue:8000
+    ports:
+      - 3000:3000
+    networks:
+      - mainNetwork
   
   queue:
     image: "queue"
