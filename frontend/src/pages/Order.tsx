@@ -21,7 +21,7 @@ export default function Order() {
         {data?.map(order => {
           if (!order.done)
             return (
-              <div className="card bg-base-100 w-full shadow-xl ">
+              <div className="card bg-base-100 w-full shadow-xl " key={order.id}>
                 <div className="card-body">
                   <h2 className="card-title">{order.name}</h2>
                   <h3 className="card-body">Ordered: {order.menu}</h3>
