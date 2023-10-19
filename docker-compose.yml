@@ -11,6 +11,7 @@ services:
       - NEXT_PUBLIC_RECENT=queue:8000
     ports:
       - 3000:3000
+      - 5555:5555
     networks:
       - mainNetwork
   
