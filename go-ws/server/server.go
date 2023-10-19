@@ -1,24 +1,50 @@
-package main
+package server
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
-	"time"
+	"os"
+	"path/filepath"
+	"sync"
 
+	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
+	"github.com/joho/godotenv"
 )
 
-var upgrader = websocket.Upgrader{}
-
-type Order struct {
-	ID        string    `json:"id"`
-	Name      string    `json:"name"`
-	Done      bool      `json:"done"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
+type Server struct {
+	mu     sync.Mutex
+	conns  map[*websocket.Conn]bool
+	Router *mux.Router
+	DB     *sql.DB
 }
+
+func (s *Server) InitDB() {
+	var err error
+	err = godotenv.Load(filepath.Join("./", ".env"))
+	if err != nil {
+		panic("failed to load .env")
+	}
+	s.DB, err = sql.Open("mysql", os.Getenv("DSN"))
+
+	if err != nil {
+		panic(err)
+	}
+
+	if err != nil {
+		log.Fatalf("failed to connect: %v", err)
+	}
+
+	if err := s.DB.Ping(); err != nil {
+		log.Fatalf("failed to ping: %v", err)
+	}
+	s.Router = mux.NewRouter()
+}
+
+var upgrader = websocket.Upgrader{}
 
 func (s *Server) Connect(w http.ResponseWriter, r *http.Request) {
 	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
