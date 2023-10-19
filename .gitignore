@@ -1,2 +1,3 @@
 postgres/*
 ./bun-react/.env
+./go-ws/.env
