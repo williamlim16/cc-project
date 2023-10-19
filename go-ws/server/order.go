@@ -20,20 +20,30 @@ type Order struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
+type OrderWithMenu struct {
+	ID        string    `json:"id"`
+	Name      string    `json:"name"`
+	Done      bool      `json:"done"`
+	MenuName  string    `json:"menu"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+}
+
 type OrderRequest struct {
 	Name   string `json:"name"`
 	MenuID string `json:"menuId"`
 }
 
 func (s *Server) GetOrders(w http.ResponseWriter, r *http.Request) {
-	rows, err := s.DB.Query("SELECT * FROM `Order`")
+	rows, err := s.DB.Query("SELECT `Order`.id,`Order`.name, done, createdAt, updatedAt, `Menu`.name as `menu`  FROM `Order` INNER JOIN `_MenuToOrder` ON `Order`.id = `_MenuToOrder`.B INNER JOIN `Menu` ON `Menu`.id = `_MenuToOrder`.A")
+
 	if err != nil {
 		log.Fatal(err)
 	}
-	var orders []Order
+	var orders []OrderWithMenu
 	for rows.Next() {
-		var ord Order
-		if err := rows.Scan(&ord.ID, &ord.Name, &ord.Done, &ord.CreatedAt, &ord.UpdatedAt); err != nil {
+		var ord OrderWithMenu
+		if err := rows.Scan(&ord.ID, &ord.Name, &ord.Done, &ord.CreatedAt, &ord.UpdatedAt, &ord.MenuName); err != nil {
 			log.Fatal(err)
 		}
 		orders = append(orders, ord)
