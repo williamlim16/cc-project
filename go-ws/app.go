@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/websocket"
 )
@@ -11,9 +12,11 @@ import (
 var upgrader = websocket.Upgrader{}
 
 type Order struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
-	Done bool   `json:"done"`
+	ID        string    `json:"id"`
+	Name      string    `json:"name"`
+	Done      bool      `json:"done"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 func (s *Server) Connect(w http.ResponseWriter, r *http.Request) {
@@ -35,6 +38,27 @@ func (s *Server) Connect(w http.ResponseWriter, r *http.Request) {
 	s.conns[c] = true
 	s.mu.Unlock()
 	log.Println("connection is being maintained")
+
+	rows, err := s.DB.Query(`SELECT * FROM "Order" WHERE done = TRUE ORDER BY "updatedAt"  DESC LIMIT 3`)
+	if err != nil {
+		log.Fatal(err)
+	}
+	var orders []Order
+	for rows.Next() {
+		var ord Order
+		if err := rows.Scan(&ord.ID, &ord.Name, &ord.Done, &ord.CreatedAt, &ord.UpdatedAt); err != nil {
+			log.Fatal(err)
+		}
+		orders = append(orders, ord)
+	}
+	marshalled, err := json.Marshal(orders)
+	if err != nil {
+		log.Fatalf("impossible to marshall request: %s", err)
+	}
+	err = c.WriteMessage(1, marshalled)
+	if err != nil {
+		log.Println("write:", err)
+	}
 	for {
 		_, _, err := c.ReadMessage()
 		if err != nil {
@@ -47,14 +71,14 @@ func (s *Server) Connect(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) Broadcast(w http.ResponseWriter, r *http.Request) {
 
-	rows, err := s.DB.Query(`SELECT * FROM "Order" LIMIT 3`)
+	rows, err := s.DB.Query(`SELECT * FROM "Order" WHERE done = TRUE ORDER BY "updatedAt" DESC LIMIT 3`)
 	if err != nil {
 		log.Fatal(err)
 	}
 	var orders []Order
 	for rows.Next() {
 		var ord Order
-		if err := rows.Scan(&ord.ID, &ord.Name, &ord.Done); err != nil {
+		if err := rows.Scan(&ord.ID, &ord.Name, &ord.Done, &ord.CreatedAt, &ord.UpdatedAt); err != nil {
 			log.Fatal(err)
 		}
 		orders = append(orders, ord)

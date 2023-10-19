@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { completeOrder, deleteOrder, getAllOrders } from "../order"
+import { broadcast, completeOrder, deleteOrder, getAllOrders } from "../order"
 import CompleteOrder from "./CompleteOrder"
 import { revalidatePath } from "next/cache"
 import DeleteOrder from "./DeleteOrder"
@@ -10,7 +10,12 @@ async function OrderListChef({ type }: { type: string | undefined }) {
   async function submitComplete(data: FormData) {
     "use server"
     if (data && data.get('id')) {
-      await completeOrder({ id: data.get('id') as string })
+      try {
+        await completeOrder({ id: data.get('id') as string })
+        await broadcast()
+      } catch (err) {
+        console.log(err)
+      }
     }
     revalidatePath("/")
   }
@@ -42,7 +47,7 @@ async function OrderListChef({ type }: { type: string | undefined }) {
       <div className="flex flex-col gap-3">
         {orders?.map((order) => (
           <>
-            <div className="card w-96 bg-base-100 shadow-xl">
+            <div className="card bg-base-100 w-96 shadow-xl">
               <div className="card-body">
                 <h2 className="card-title">{order.name}</h2>
                 <p>{order.menus[0]?.name}</p>

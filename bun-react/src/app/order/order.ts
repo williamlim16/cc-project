@@ -3,6 +3,7 @@
 import { Order } from "@prisma/client"
 import prisma from "../../lib/prisma"
 import { sleep } from "@/lib/util"
+import { METHODS } from "http"
 
 export type FormOrder = Omit<Order, "id" | "done">
 
@@ -15,7 +16,7 @@ export async function addOrder ({name}: FormOrder, menuId: string) {
         connect: {
           id: menuId
         }
-      }
+      },
     }
   })
 }
@@ -88,4 +89,10 @@ export async function deleteOrder ({id}: {id: string}) {
     id
   },
 })
+}
+
+export async function broadcast(){
+  await fetch(`http://${process.env["NEXT_PUBLIC_RECENT"]}/broadcast`, {
+    method: "POST"
+  })
 }
