@@ -3,7 +3,6 @@ package server
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -68,7 +67,6 @@ func (s *Server) Connect(w http.ResponseWriter, r *http.Request) {
 
 	rows, err := s.DB.Query("SELECT * FROM `Order` WHERE done = TRUE ORDER BY `updatedAt`  DESC LIMIT 3")
 	if err != nil {
-		fmt.Println(rows)
 		log.Fatal(err)
 	}
 	var orders []Order

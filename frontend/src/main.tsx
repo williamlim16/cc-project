@@ -6,8 +6,10 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import App from './App'
 import Order from './pages/Order'
 import Chef from './pages/Chef'
+import OrderAdd from './pages/OrderAdd'
+import { Toaster } from 'react-hot-toast'
 
-const queryClient = new QueryClient()
+export const queryClient = new QueryClient()
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -17,6 +19,11 @@ export const router = createBrowserRouter([
   {
     path: "/order",
     element: <Order />,
+  },
+
+  {
+    path: "/order/add",
+    element: <OrderAdd />,
   },
 
   {
@@ -30,6 +37,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
+      <Toaster />
     </QueryClientProvider>
   </React.StrictMode>,
 )
