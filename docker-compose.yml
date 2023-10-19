@@ -7,7 +7,7 @@ services:
     depends_on:
       - queue
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@database-ecm.c4lovv8lv5kg.ap-southeast-1.rds.amazonaws.com:5432/postgres?connect_timeout=300
+      - DATABASE_URL=postgresql://postgres:postgres@database-ecm.c4lovv8lv5kg.ap-southeast-1.rds.amazonaws.com:5432/postgres?connect_timeout=3000
       - NEXT_PUBLIC_RECENT=queue:8000
     ports:
       - 3000:3000
