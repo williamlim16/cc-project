@@ -29,7 +29,7 @@ async function OrderList({ page = 0 }: { page: number }) {
       <div className="mt-3 flex w-full flex-col gap-3">
         {orders?.map((order) => (
           <>
-            <div className="card w-full bg-base-100 shadow-xl">
+            <div className="card bg-base-100 w-full shadow-xl">
               <div className="card-body">
                 <h2 className="card-title">{order.name}</h2>
                 <p>{order.menus[0]?.name}</p>
