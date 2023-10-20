@@ -1,4 +1,4 @@
-FROM node:lts
+FROM node:lts AS react
 
 COPY . .
 RUN npm install && \ 
@@ -7,8 +7,8 @@ RUN npm install && \
 FROM golang:1.21
 
 WORKDIR /usr/src/app
-
 COPY go.mod ./
+COPY --from=react /dist /usr/src/app/dist
 RUN go mod download && go mod verify
 
 COPY . .
