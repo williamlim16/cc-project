@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   order:
-    image: "order"
+    image: "williamlim16/cc_order"
     build: ./frontend
     depends_on:
       - queue
@@ -10,22 +10,15 @@ services:
       - 3000:3000
     networks:
       - mainNetwork
-    deploy:
-      mode: replicated
-      replicas: 2
   
   queue:
-    image: "queue"
+    image: "williamlim16/cc_queue"
     build: ./go-ws
     ports:
       - 8000:8000
     networks:
       - mainNetwork
-    deploy:
-      mode: replicated
-      replicas: 2
 
 networks:
   mainNetwork: 
-    external:
-      name: mainNetwork
+    driver: "bridge"
