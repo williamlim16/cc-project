@@ -3,14 +3,11 @@ version: '3.1'
 services:
   order:
     image: "order"
-    build: ./bun-react
+    build: ./frontend
     depends_on:
       - queue
-    environment:
-      - DATABASE_URL=
     ports:
       - 3000:3000
-      - 5555:5555
     networks:
       - mainNetwork
   
