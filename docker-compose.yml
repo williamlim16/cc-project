@@ -10,6 +10,9 @@ services:
       - 3000:3000
     networks:
       - mainNetwork
+    deploy:
+      mode: replicated
+      replicas: 2
   
   queue:
     image: "queue"
@@ -18,7 +21,11 @@ services:
       - 8000:8000
     networks:
       - mainNetwork
+    deploy:
+      mode: replicated
+      replicas: 2
 
 networks:
   mainNetwork: 
-    driver: "bridge"
+    external:
+      name: mainNetwork
