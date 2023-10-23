@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
 	"sync"
 
 	"github.com/gorilla/mux"
@@ -23,7 +22,7 @@ type Server struct {
 
 func (s *Server) InitDB() {
 	var err error
-	err = godotenv.Load(filepath.Join("./", ".env"))
+	err = godotenv.Load()
 	if err != nil {
 		panic("failed to load .env")
 	}
