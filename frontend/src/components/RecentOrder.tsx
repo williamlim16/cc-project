@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Order } from "../repositories/order";
+import { server } from "../config";
 
 export default function RecentOrder() {
   const [order, setOrder] = useState<Order[]>([])
   useEffect(() => {
-    const ws = new WebSocket(`ws://localhost:8000/ws`);
+    const ws = new WebSocket(`ws://${server}/ws`);
     ws.onmessage = (event) => {
       setOrder(JSON.parse(event.data))
     };
