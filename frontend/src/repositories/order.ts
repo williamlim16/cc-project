@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { server } from "../config";
+import { protocol, server } from "../config";
 
 export type Order = {
   id: string;
@@ -12,7 +12,7 @@ export type Order = {
 
 export async function getOrders() {
   try {
-    const { data } = await axios.get<Order[]>(`${server}/orders`);
+    const { data } = await axios.get<Order[]>(`${protocol}://${server}/orders`);
     return data;
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -23,7 +23,7 @@ export async function getOrders() {
 
 export async function addOrder({ name, menu }: { name: string; menu: string }) {
   try {
-    await axios.post(`${server}/orders`, {
+    await axios.post(`${protocol}://${server}/orders`, {
       name,
       menuId: menu,
     });
@@ -36,8 +36,8 @@ export async function addOrder({ name, menu }: { name: string; menu: string }) {
 
 export async function completeOrder({ orderId }: { orderId: string }) {
   try {
-    await axios.patch(`${server}/orders/${orderId}`);
-    await axios.post(`${server}/broadcast`);
+    await axios.patch(`${protocol}://${server}/orders/${orderId}`);
+    await axios.post(`${protocol}://${server}/broadcast`);
   } catch (error) {
     if (error instanceof AxiosError) {
       throw new Error(error.message);
@@ -47,7 +47,7 @@ export async function completeOrder({ orderId }: { orderId: string }) {
 
 export async function deleteOrder({ orderId }: { orderId: string }) {
   try {
-    await axios.delete(`${server}/orders/${orderId}`);
+    await axios.delete(`${protocol}://${server}/orders/${orderId}`);
   } catch (error) {
     if (error instanceof AxiosError) {
       throw new Error(error.message);

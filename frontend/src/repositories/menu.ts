@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { server } from "../config";
+import { protocol, server } from "../config";
 
 type Menu = {
   id: string;
@@ -12,7 +12,7 @@ type Menu = {
 
 export async function getMenus() {
   try {
-    const { data } = await axios.get<Menu[]>(`${server}/menus`);
+    const { data } = await axios.get<Menu[]>(`${protocol}://${server}/menus`);
     return data;
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -23,7 +23,7 @@ export async function getMenus() {
 
 export async function addMenu({ name }: { name: string }) {
   try {
-    await axios.post(`${server}/menus`, {
+    await axios.post(`${protocol}://${server}/menus`, {
       name,
     });
   } catch (error) {
@@ -35,7 +35,7 @@ export async function addMenu({ name }: { name: string }) {
 
 export async function deleteMenu({ menuId }: { menuId: string }) {
   try {
-    await axios.delete(`${server}/menus/${menuId}`);
+    await axios.delete(`${protocol}://${server}/menus/${menuId}`);
   } catch (error) {
     if (error instanceof AxiosError) {
       throw new Error(error.message);
